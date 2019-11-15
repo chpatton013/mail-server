@@ -1,0 +1,11 @@
+@{{domain}}             {{user}}@{{domain}}
+{{user}}@{{domain}}     {{user}}@{{domain}}
+postbot@{{domain}}      postbot@{{domain}}
+webmaster@{{domain}}    webmaster@{{domain}}
+
+abuse@{{domain}}        webmaster@{{domain}}
+admin@{{domain}}        webmaster@{{domain}}
+hostmaster@{{domain}}   webmaster@{{domain}}
+postmaster@{{domain}}   webmaster@{{domain}}
+root@mail.{{domain}}    webmaster@{{domain}}
+root@{{domain}}         webmaster@{{domain}}

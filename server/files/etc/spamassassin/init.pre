@@ -1,0 +1,14 @@
+# RelayCountry - add metadata for Bayes learning, marking the countries
+# a message was relayed through
+# Note: This requires the Geo::IP Perl module
+#loadplugin Mail::SpamAssassin::Plugin::RelayCountry
+
+# URIDNSBL - look up URLs found in the message against several DNS
+# blocklists.
+loadplugin Mail::SpamAssassin::Plugin::URIDNSBL
+
+# Hashcash - perform hashcash verification.
+loadplugin Mail::SpamAssassin::Plugin::Hashcash
+
+# SPF - perform SPF verification.
+loadplugin Mail::SpamAssassin::Plugin::SPF

@@ -1,0 +1,2 @@
+# AskDNS - forms a DNS query based on 'tags' as supplied by other plugins
+loadplugin Mail::SpamAssassin::Plugin::AskDNS

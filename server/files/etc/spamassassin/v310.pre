@@ -1,0 +1,38 @@
+# DCC - perform DCC message checks.
+# DCC is disabled here because it is not open source.  See the DCC
+# license for more details.
+#loadplugin Mail::SpamAssassin::Plugin::DCC
+
+# Pyzor - perform Pyzor message checks.
+loadplugin Mail::SpamAssassin::Plugin::Pyzor
+
+# Razor2 - perform Razor2 message checks.
+loadplugin Mail::SpamAssassin::Plugin::Razor2
+
+# SpamCop - perform SpamCop message reporting
+loadplugin Mail::SpamAssassin::Plugin::SpamCop
+
+# AntiVirus - some simple anti-virus checks, this is not a replacement
+# for an anti-virus filter like Clam AntiVirus
+#loadplugin Mail::SpamAssassin::Plugin::AntiVirus
+
+# AWL - do auto-whitelist checks
+#loadplugin Mail::SpamAssassin::Plugin::AWL
+
+# AutoLearnThreshold - threshold-based discriminator for Bayes auto-learning
+loadplugin Mail::SpamAssassin::Plugin::AutoLearnThreshold
+
+# TextCat - language guesser
+loadplugin Mail::SpamAssassin::Plugin::TextCat
+
+# AccessDB - lookup from-addresses in access database
+#loadplugin Mail::SpamAssassin::Plugin::AccessDB
+
+# WhitelistSubject - Whitelist/Blacklist certain subject regular expressions
+loadplugin Mail::SpamAssassin::Plugin::WhiteListSubject
+
+# MIMEHeader - apply regexp rules against MIME headers in the message
+loadplugin Mail::SpamAssassin::Plugin::MIMEHeader
+
+# ReplaceTags
+loadplugin Mail::SpamAssassin::Plugin::ReplaceTags

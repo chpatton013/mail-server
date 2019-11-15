@@ -1,0 +1,35 @@
+# User account aliases
+bin:                    postbot
+clamav:                 postmaster
+daemon:                 postbot
+dbus:                   postbot
+dovecot:                postmaster
+dovenull:               postmaster
+ftp:                    webmaster
+http:                   webmaster
+mailman:                postmaster
+mail:                   postmaster
+nobody:                 root
+opendkim:               postmaster
+postfix:                postmaster
+root:                   postmaster
+spamd:                  postmaster
+systemd-coredump:       postbot
+systemd-journal-remote: postbot
+systemd-network:        postbot
+systemd-resolve:        postbot
+systemd-timesync:       postbot
+uuidd:                  postbot
+
+# Pseudo aliases
+MAILER-DAEMON:          postmaster
+decode:                 root
+dumper:                 root
+manager:                postmaster
+operator:               postmaster
+
+# Address aliases
+abuse:                  abuse@{{domain}}
+postbot:                postbot@{{domain}}
+postmaster:             postmaster@{{domain}}
+webmaster:              webmaster@{{domain}}

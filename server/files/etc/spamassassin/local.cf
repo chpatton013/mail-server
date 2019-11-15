@@ -1,0 +1,177 @@
+#
+# SCORING OPTIONS
+#
+
+#required_score n.nn (default: 5)
+#score SYMBOLIC_TEST_NAME n.nn [ n.nn n.nn n.nn ]
+
+#
+# WHITELIST AND BLACKLIST OPTIONS
+#
+
+#whitelist_from user@example.com
+#unwhitelist_from user@example.com
+#whitelist_from_rcvd addr@lists.sourceforge.net sourceforge.net
+#def_whitelist_from_rcvd addr@lists.sourceforge.net sourceforge.net
+#whitelist_allows_relays user@example.com
+#unwhitelist_from_rcvd user@example.com
+#blacklist_from user@example.com
+#unblacklist_from user@example.com
+#whitelist_to user@example.com
+#more_spam_to user@example.com
+#all_spam_to user@example.com
+#blacklist_to user@example.com
+#whitelist_auth user@example.com
+#def_whitelist_auth user@example.com
+#enlist_uri_host (listname) host ...
+#delist_uri_host [ (listname) ] host ...
+#enlist_addrlist (listname) user@example.com
+#blacklist_uri_host host-or-domain ...
+#whitelist_uri_host host-or-domain ...
+
+#
+# BASIC MESSAGE TAGGING OPTIONS
+#
+
+#rewrite_header { subject | from | to } STRING
+#add_header { spam | ham | all } header_name string
+#remove_header { spam | ham | all } header_name
+#clear_headers
+#report_safe ( 0 | 1 | 2 ) (default: 1)
+#report_wrap_width (default: 70)
+
+#
+# LANGUAGE OPTIONS
+#
+
+#ok_locales xx [ yy zz ... ] (default: all)
+#normalize_charset ( 0 | 1) (default: 0)
+
+#
+# NETWORK TEST OPTIONS
+#
+
+#trusted_networks IPaddress[/masklen] ... (default: none)
+#clear_trusted_networks
+#internal_networks IPaddress[/masklen] ... (default: none)
+#clear_internal_networks
+#msa_networks IPaddress[/masklen] ... (default: none)
+#clear_msa_networks
+#originating_ip_headers header ... (default: X-Yahoo-Post-IP X-Originating-IP X-Apparently-From X-SenderIP)
+#clear_originating_ip_headers
+#always_trust_envelope_sender ( 0 | 1 ) (default: 0)
+#skip_rbl_checks ( 0 | 1 ) (default: 0)
+#dns_available { yes | no | test[: domain1 domain2...] } (default: yes)
+#dns_server ip-addr-port (default: entries provided by Net::DNS)
+#clear_dns_servers
+#dns_local_ports_permit ranges...
+#dns_local_ports_avoid ranges...
+#dns_local_ports_none
+#dns_test_interval n (default: 600 seconds)
+#dns_options opts (default: norotate, nodns0x20, edns=4096)
+#dns_query_restriction (allow|deny) domain1 domain2 ...
+#clear_dns_query_restriction
+
+#
+# LEARNING OPTIONS
+#
+
+#use_learner ( 0 | 1 ) (default: 1)
+#use_bayes ( 0 | 1 ) (default: 1)
+#use_bayes_rules ( 0 | 1 ) (default: 1)
+#bayes_auto_learn ( 0 | 1 ) (default: 1)
+#bayes_token_sources (default: header visible invisible uri)
+#bayes_ignore_header header_name
+#bayes_ignore_from user@example.com
+#bayes_ignore_to user@example.com
+#bayes_min_ham_num (Default: 200)
+#bayes_min_spam_num (Default: 200)
+#bayes_learn_during_report (Default: 1)
+#bayes_sql_override_username
+#bayes_use_hapaxes (default: 1)
+#bayes_journal_max_size (default: 102400)
+#bayes_expiry_max_db_size (default: 150000)
+#bayes_auto_expire (default: 1)
+#bayes_token_ttl (default: 3w, i.e. 3 weeks)
+#bayes_seen_ttl (default: 8d, i.e. 8 days)
+#bayes_learn_to_journal (default: 0)
+
+#
+# MISCELLANEOUS OPTIONS
+#
+
+#time_limit n (default: 300)
+#lock_method type
+#fold_headers ( 0 | 1 ) (default: 1)
+#report_safe_copy_headers header_name ...
+#envelope_sender_header Name-Of-Header
+#describe SYMBOLIC_TEST_NAME description ...
+#report_charset CHARSET (default: unset)
+#report ...some text for a report...
+#clear_report_template
+#report_contact ...text of contact address...
+#report_hostname ...hostname to use...
+#unsafe_report ...some text for a report...
+#clear_unsafe_report_template
+#mbox_format_from_regex
+#parse_dkim_uris ( 0 | 1 ) (default: 1)
+
+#
+# PRIVILEGED OPTIONS
+#
+
+#allow_user_rules ( 0 | 1 ) (default: 0)
+#redirector_pattern /pattern/modifiers
+#header SYMBOLIC_TEST_NAME header op /pattern/modifiers [if-unset: STRING]
+#header SYMBOLIC_TEST_NAME exists:header_field_name
+#header SYMBOLIC_TEST_NAME eval:name_of_eval_method([arguments])
+#header SYMBOLIC_TEST_NAME eval:check_rbl('set', 'zone' [, 'sub-test'])
+#header SYMBOLIC_TEST_NAME eval:check_rbl_txt('set', 'zone')
+#header SYMBOLIC_TEST_NAME eval:check_rbl_sub('set', 'sub-test')
+#body SYMBOLIC_TEST_NAME /pattern/modifiers
+#body SYMBOLIC_TEST_NAME eval:name_of_eval_method([args])
+#rawbody SYMBOLIC_TEST_NAME /pattern/modifiers
+#rawbody SYMBOLIC_TEST_NAME eval:name_of_eval_method([args])
+#full SYMBOLIC_TEST_NAME /pattern/modifiers
+#full SYMBOLIC_TEST_NAME eval:name_of_eval_method([args])
+#meta SYMBOLIC_TEST_NAME boolean expression
+#meta META1 TEST1 && !(TEST2 || TEST3)
+#meta SYMBOLIC_TEST_NAME boolean arithmetic expression
+#reuse SYMBOLIC_TEST_NAME [ OLD_SYMBOLIC_TEST_NAME_1 ... ]
+#tflags SYMBOLIC_TEST_NAME flags
+#priority SYMBOLIC_TEST_NAME n
+
+#
+# ADMINISTRATOR OPTIONS
+#
+
+#version_tag string
+#test SYMBOLIC_TEST_NAME (ok|fail) Some string to test against
+#rbl_timeout t [t_min] [zone] (default: 15 3)
+#util_rb_tld tld1 tld2 ...
+#util_rb_2tld 2tld-1.tld 2tld-2.tld ...
+#util_rb_3tld 3tld1.some.tld 3tld2.other.tld ...
+#clear_util_rb
+bayes_path /var/lib/spamassassin/spamassassin/bayes
+#bayes_file_mode (default: 0700)
+#bayes_store_module Name::Of::BayesStore::Module
+#bayes_sql_dsn DBI::databasetype:databasename:hostname:port
+#bayes_sql_username
+#bayes_sql_password
+#bayes_sql_username_authorized ( 0 | 1 ) (default: 0)
+#user_scores_dsn DBI:databasetype:databasename:hostname:port
+#user_scores_sql_username username
+#user_scores_sql_password password
+#user_scores_sql_custom_query query
+#user_scores_ldap_username
+#user_scores_ldap_password
+#user_scores_fallback_to_global (default: 1)
+#loadplugin PluginModuleName [/path/module.pm]
+#tryplugin PluginModuleName [/path/module.pm]
+#ignore_always_matching_regexps (Default: 0)
+
+#
+# ADDON OPTIONS
+#
+
+razor_config /var/lib/spamassassin/razor/razor-agent.conf

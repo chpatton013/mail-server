@@ -1,0 +1,148 @@
+compatibility_level = 2
+
+# Configure this server to operate on your mail domain.
+mydomain = {{domain}}
+myhostname = mail.$mydomain
+myorigin = $mydomain
+mydestination = $myhostname localhost.$mydomain localhost $mydomain
+relay_domains = $mydestination
+
+# Allow mailboxes up to 10GB.
+mailbox_size_limit = 107374182400
+
+# Allow messages up to 10MB.
+message_size_limit = 104857600
+
+# Associate user accounts on this server with email addresses.
+alias_maps = hash:/etc/postfix/aliases
+alias_database = $alias_maps
+
+# Associate virtual users to real users.
+virtual_alias_maps = hash:/etc/postfix/virtual
+
+# Define the set of domains and virtual users that may receive mail on this
+# server.
+virtual_mailbox_domains = hash:/etc/postfix/virtual_mailbox_domains
+virtual_mailbox_maps = hash:/etc/postfix/virtual_mailbox_maps
+smtpd_sender_login_maps = $virtual_mailbox_maps
+
+# Only establish or accept IPv4 connections.
+inet_protocols = ipv4
+
+# Support Postfix address extensions (eg: `foo+bar@` maps to `foo@`).
+recipient_delimiter = +
+
+# Do not respond to VRFY commands sent from MTA's.
+# This prevents address harvesting attacks.
+disable_vrfy_command = yes
+
+# Require that MTA's introduce themselves with a HELO command before sending
+# the MAIL command. Reject HELO commands from invalid hostnames.
+smtpd_helo_required = yes
+
+# Reject mail posted from or sent to an unrecognized or unauthenticated host.
+smtpd_recipient_restrictions =
+    reject_unknown_client_hostname,
+    reject_unknown_sender_domain,
+    reject_unknown_recipient_domain,
+    reject_unauth_pipelining,
+    permit_mynetworks,
+    permit_sasl_authenticated,
+    reject_unauth_destination,
+    reject_invalid_hostname,
+    reject_non_fqdn_sender
+smtpd_sender_restrictions =
+    reject_unknown_sender_domain,
+    reject_sender_login_mismatch
+smtpd_helo_restrictions =
+    permit_mynetworks,
+    reject_non_fqdn_helo_hostname,
+    reject_invalid_helo_hostname,
+    reject_unknown_helo_hostname,
+    permit
+
+smtpd_restriction_classes =
+    mua_sender_restrictions,
+    mua_client_restrictions,
+    mua_helo_restrictions
+mua_client_restrictions =
+    permit_sasl_authenticated,
+    reject
+mua_sender_restrictions =
+    permit_sasl_authenticated,
+    reject
+mua_helo_restrictions =
+    permit_mynetworks,
+    reject_non_fqdn_helo_hostname,
+    reject_invalid_helo_hostname,
+    reject_unknown_helo_hostname,
+    permit
+mua_recipient_restrictions =
+mua_relay_restrictions =
+    permit_sasl_authenticated,
+    reject
+
+# Require that MUA's encrypt all mail they want to send through this server.
+smtp_tls_note_starttls_offer = yes
+smtp_tls_security_level = encrypt
+smtp_tls_loglevel = 1
+
+# Require that MDA's accept encrypted mail, and only try to authenticate over
+# encrypted connections.
+smtpd_tls_security_level = encrypt
+smtpd_tls_auth_only = yes
+smtpd_tls_ciphers = high
+smtpd_tls_received_header = yes
+smtpd_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+smtpd_tls_cert_file = /etc/ssl/private/mail.crt
+smtpd_tls_key_file = /etc/ssl/private/mail.key
+smtpd_tls_loglevel = 1
+
+# Only allow SASL authentication over encrypted connections.
+# Reject authentication methods that are insecure.
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = $queue_directory/dovecot/dovecot.sock
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_local_domain = $myhostname
+smtpd_sasl_tls_security_options = $smtpd_sasl_security_options
+smtpd_sasl_authenticated_header = yes
+
+# Cache TLS sessions for MUA's and MDA's.
+smtp_tls_session_cache_database = btree:$data_directory/smtp_tls_session_cache
+smtpd_tls_session_cache_database = btree:$data_directory/smtpd_tls_session_cache
+
+# Tell remote MTA's that failed relay attempts should not be retried.
+unknown_address_reject_code = 550
+unknown_hostname_reject_code = 550
+unknown_client_reject_code = 550
+
+# Connect mail filters to Postfix.
+milter_default_action = accept
+milter_connect_macros = j {daemon_name} v {if_name} _
+smtpd_milters =
+    unix:$queue_directory/clamav/clamav-milter.sock
+    unix:$queue_directory/opendkim/opendkim.sock
+    unix:$queue_directory/spamassassin/sa-milt.sock
+non_smtpd_milters = $smtpd_milters
+
+# Enable debug logging for email sent within the container.
+# We aren't running anything else in the container that would have a reason to
+# post mail, so this should exclusively be for test emails.
+debug_peer_level = 2
+debug_peer_list = 127.0.0.1
+debugger_command =
+    /usr/bin/gdb -ex 'cont' -ex 'where'
+        $daemon_directory/$process_name $process_id
+        2>&1 >$config_directory/$process_name.$process_id.log &
+    /usr/bin/sleep 5
+
+# Pass emails to dovecot for local delivery.
+# Emails delivered to dovecot need to have a 'Delivered-To' header added to
+# them, which requires they be sent one at a time instead of in batches.
+mailbox_command =
+    /usr/lib/dovecot/deliver
+        -c /etc/dovecot/dovecot.conf
+        -m "$EXTENSION"
+virtual_transport = dovecot
+dovecot_destination_recipient_limit = 1

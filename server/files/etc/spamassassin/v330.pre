@@ -1,0 +1,7 @@
+# PhishTag - allows sites to rewrite suspect phish-mail URLs
+# (Note: this requires configuration, see http://umut.topkara.org/PhishTag)
+#loadplugin Mail::SpamAssassin::Plugin::PhishTag
+
+# FreeMail - detect email addresses using free webmail services,
+# usable as input for other rules
+loadplugin Mail::SpamAssassin::Plugin::FreeMail
